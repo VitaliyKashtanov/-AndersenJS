@@ -6,9 +6,9 @@
 
 .wrap{
 	position: absolute;
-	top: 50%;
+	top: 20%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translateX(-50%);
 	border: 1px solid #ccc;
 	padding: 40px;
 	display: flex;
@@ -39,21 +39,6 @@ button:hover{
 	background-color: #999;
 	cursor: pointer;
 }
-/*
-span:hover{
-	cursor: pointer;
-}
-
-span.done{
-	font-size: 30px;
-	color: #12ff45;
-}
-
-span.close{
-	font-size: 30px;
-	float: right;
-	color: #999;
-}*/
 
 p{
 	color: #333;
