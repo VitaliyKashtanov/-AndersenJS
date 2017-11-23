@@ -1,51 +1,101 @@
-var taskCall = document.getElementById('task');
-taskCall.onclick = function(){
-   addTask();
-}
+ window.onload = function() {
 
-function addTask() {
-	var taskItem = document.createElement("div"),
-		taskBody = document.getElementById("task-body"),
-		taskItemP = document.createElement("p"),
-		button = document.createElement("button");
-		button.innerHTML = 'Delete';
-		button.className = 'btn-del';
-
-	var task = document.querySelector("input").value;
-
-	if(task != "") {
-		var taskText = document.createTextNode(task);
-		var strikedText = false;
-	} else {
-		alert('Please write your task');
+	function Item(obj) {
+		this.number = obj.number;
+		this.color = obj.color;
+		this.chance = obj.chance;
 	}
 
-	taskItemP.appendChild(taskText);
-	taskItem.appendChild(taskItemP);
-	taskItem.appendChild(button);
-	taskBody.appendChild(taskItem);
+	var zeroChance = 4;
+	var redChance = 14;
+	var blackChance = 16;
 
-	document.querySelector("input").value = "";
-	// task = "";
+	function arrPush() {
+		for(var i=0; i<29; i++) {
+			if(i == 0) {
+				var num = {number: 0, color: "green", chance: zeroChance};
+				arrNumbers.push(num);
+			} else if(i%2 == 0 && i != 0) {
+				var num = {number: i, color: "red", chance: redChance};
+				arrNumbers.push(num);
+			} else {
+				var num = {number: i, color: "black", chance: blackChance};
+				arrNumbers.push(num);
+			}
 
-	taskItemP.onclick = function() {
-		strikeText();
+		}
 	}
 
-	function strikeText() {
-		if(strikedText) { 
-			taskItemP.style.textDecoration = ""; 
-		} else { 
-		taskItemP.style.textDecoration = "line-through"; 
-		} 
-		strikedText = !strikedText;
+	function rand(arrNumbers) {
+		var num = Math.floor(Math.random() * chanceLenght);
+		var sum = 0;
+
+		for(var i in arrNumbers) {
+			if(i == 0 && num >= 0 && num <= arrNumbers[i].chance) {
+			} else if(i == 0){
+				sum += arrNumbers[i].chance;
+			}
+
+			if(i != 0 && num >= sum && num <= (sum + arrNumbers[i].chance)) {
+				break;
+			} else if(i != 0) {
+				sum += arrNumbers[i].chance;
+			}
+		}
+		currentNum = arrNumbers[i];
 	}
 
-	button.onclick = function() {
-		removeTask();
+	var chanceLenght = 424;
+	var arrNumbers = [];
+	var currentNum;
+	var inputNum;
+
+	var roulette = document.querySelector(".roulette");
+	function createRoulette() {
+		for(var i=0; i<arrNumbers.length; i++) {
+			var box = document.createElement("div");
+			box.className = "item";
+			box.style.backgroundColor = arrNumbers[i].color;
+			box.innerHTML = arrNumbers[i].number;
+			// box.style.color = "white";
+			roulette.appendChild(box);
+		}
 	}
-	
-	function removeTask() {
-		taskItem.remove();
+
+	var roll = document.getElementById("roll");
+	roll.onclick = function(){
+		getInput();
+		rand(arrNumbers);
+		proebalOrNot();
+
+		var arr = roulette.children;
+		for(var i=0; i<arr.length-1; i++) {
+			search(arr[i], i);
+		}
 	}
-}
+
+	function getInput() {
+		inputNum = document.querySelector("input").value;
+		info.innerHTML += "<p>Вы поставили на: " + inputNum + "</p>";	
+	}
+
+	function search(el, idx) {
+		if(parseInt(el.innerHTML) == currentNum.number) {
+			el.style.backgroundColor = "yellow";
+		} else {
+			el.style.backgroundColor = arrNumbers[idx].color;
+		}
+	}
+
+	var info = document.querySelector(".info")
+	function proebalOrNot()  {
+		if(currentNum.number == inputNum) {
+			info.innerHTML += "<p>Вы выиграли</p>";
+
+		} else {
+			info.innerHTML += "<p>Вы проиграли</p>";
+		}
+	}
+	arrPush();
+	createRoulette();
+};
