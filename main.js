@@ -57,7 +57,6 @@
 			box.className = "item";
 			box.style.backgroundColor = arrNumbers[i].color;
 			box.innerHTML = arrNumbers[i].number;
-			// box.style.color = "white";
 			roulette.appendChild(box);
 		}
 	}
@@ -66,7 +65,7 @@
 	roll.onclick = function(){
 		getInput();
 		rand(arrNumbers);
-		proebalOrNot();
+		winOrNot();
 
 		var arr = roulette.children;
 		for(var i=0; i<arr.length-1; i++) {
@@ -76,11 +75,15 @@
 
 	function getInput() {
 		inputNum = document.querySelector("input").value;
-		info.innerHTML += "<p>Вы поставили на: " + inputNum + "</p>";	
+		if(inputNum != "") {
+			info.innerHTML += "<p>Вы поставили на: " + inputNum + "</p>";		
+		} else {
+			info.innerHTML += "<p>Выберите число</p>";
+		}
 	}
 
 	function search(el, idx) {
-		if(parseInt(el.innerHTML) == currentNum.number) {
+		if(parseInt(el.innerHTML) == currentNum.number && inputNum != "") {
 			el.style.backgroundColor = "yellow";
 		} else {
 			el.style.backgroundColor = arrNumbers[idx].color;
@@ -88,13 +91,15 @@
 	}
 
 	var info = document.querySelector(".info")
-	function proebalOrNot()  {
-		if(currentNum.number == inputNum) {
-			info.innerHTML += "<p>Вы выиграли</p>";
+	function winOrNot()  {
+		if(inputNum != "") {
+			if(currentNum.number == inputNum) {
+				info.innerHTML += "<p>Вы выиграли</p>";
 
-		} else {
-			info.innerHTML += "<p>Вы проиграли</p>";
-		}
+			} else {
+				info.innerHTML += "<p>Вы проиграли</p>";
+			}
+		}	
 	}
 	arrPush();
 	createRoulette();
